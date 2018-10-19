@@ -15,6 +15,11 @@ class App extends Component {
     };
   }
 
+  deleteToDo(index) {
+    const todos = this.state.todos.filter((todo, currentIndex) => currentIndex !== index);
+    this.setState({ todos: todos });
+  };
+
   handleChange(e) {
     this.setState({ newTodoDescription: e.target.value })
   }
@@ -38,7 +43,7 @@ class App extends Component {
       <div className="App">
         <ul>
           {this.state.todos.map((todo, index) =>
-            <ToDo key={index} description={todo.description} isCompleted={todo.isCompleted} toggleComplete={() => this.toggleComplete(index)} />
+            <ToDo key={index} description={todo.description} isCompleted={todo.isCompleted} toggleComplete={() => this.toggleComplete(index)} deleteToDo={() => this.deleteToDo(index)} />
           )}
         </ul>
         <form onSubmit={(e) => this.handleSubmit(e)}>
@@ -51,3 +56,14 @@ class App extends Component {
 }
 
 export default App;
+
+
+/*
+1. Add a delete button to the ToDo component.
+2. Define a deleteTodo method on the App component. This method should call this.setState() 
+and pass it a new array that doesn't have the to-do item being deleted. Consider using the
+.filter() array method to accomplish this without mutating state – do not use .splice(), 
+which is a mutable method, unless making a copy of the array first.
+3. Pass the deleteTodo method to the ToDo component as a prop.
+4. Add an onClick event listener to the delete button, and have it call deleteTodo, 
+passing it the index of the to-do.*/
